@@ -95,11 +95,17 @@ taskflow/
 
 ## Metodologia de trabalho
 
-Foi adotado o Kanban para visualizar o andamento das atividades. O quadro deve ser criado na aba **Projects** do GitHub com as colunas **A Fazer**, **Em Progresso** e **Concluído**. As tarefas são movidas conforme o desenvolvimento avança.
+Foi utilizado o método Kanban por meio do GitHub Projects para organizar e acompanhar as atividades do projeto.
+
+O quadro foi dividido em três colunas: **A Fazer**, **Em Progresso** e **Concluído**. As atividades foram registradas em cards e movimentadas conforme o andamento do desenvolvimento.
 
 ## Mudança de escopo
 
-O escopo inicial previa apenas o cadastro e a consulta de tarefas. Durante o desenvolvimento, foi identificada a necessidade de acompanhar a urgência das atividades e visualizar somente tarefas de determinado status. Por isso, foram adicionados os campos de prioridade e o filtro por status. A alteração foi registrada em `docs/gestao-de-mudancas.md` e deve ser representada também por um novo card no Kanban.
+Durante o planejamento e desenvolvimento, foi identificada a necessidade de melhorar a organização das tarefas por meio de níveis de prioridade.
+
+Com isso, o sistema passou a permitir a classificação das atividades em baixa, média e alta prioridade. Essa alteração foi registrada na documentação e representada por um novo card no GitHub Projects.
+
+A mudança demonstra como um requisito adicional pode ser incorporado ao planejamento de um projeto.
 
 ## Qualidade e integração contínua
 
