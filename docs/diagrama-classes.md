@@ -1,33 +1,50 @@
 # Diagrama de Classes
 
-O modelo abaixo representa a entidade principal persistida no banco de dados e os componentes responsáveis pelo acesso aos dados e pelas rotas da aplicação.
+## Objetivo
+
+O diagrama representa a estrutura principal do TaskFlow, demonstrando as classes responsáveis pelas tarefas, pelo banco de dados e pelo funcionamento da aplicação.
+
+## Diagrama
 
 ```mermaid
 classDiagram
     class Tarefa {
-      +int id
-      +str titulo
-      +str descricao
-      +str status
-      +str prioridade
-      +datetime criado_em
+        +int id
+        +string titulo
+        +string descricao
+        +string status
+        +string prioridade
     }
+
     class BancoDeDados {
-      +conectar()
-      +inicializar()
-      +consultar_tarefas()
-      +salvar_tarefa()
-      +atualizar_tarefa()
-      +excluir_tarefa()
+        +conectar()
+        +criar_tabela()
+        +listar_tarefas()
+        +adicionar_tarefa()
+        +atualizar_tarefa()
+        +excluir_tarefa()
     }
+
     class Aplicacao {
-      +listar_tarefas()
-      +cadastrar_tarefa()
-      +editar_tarefa()
-      +remover_tarefa()
+        +index()
+        +criar()
+        +editar()
+        +excluir()
     }
-    Aplicacao --> BancoDeDados
-    BancoDeDados --> Tarefa
+
+    Aplicacao --> BancoDeDados : utiliza
+    BancoDeDados --> Tarefa : armazena
 ```
 
-**Descrição:** `Tarefa` representa os dados armazenados. `BancoDeDados` concentra a conexão e as operações SQLite. `Aplicacao` recebe as solicitações feitas pelas páginas e aciona as operações necessárias.
+## Descrição das classes
+
+**Tarefa:** representa uma atividade cadastrada no sistema, contendo identificador, título, descrição, status e prioridade.
+
+**BancoDeDados:** responsável por estabelecer a conexão com o SQLite e executar operações de consulta, cadastro, atualização e exclusão de tarefas.
+
+**Aplicacao:** responsável por receber as requisições do usuário por meio das rotas Flask e acionar as operações necessárias no banco de dados.
+
+## Relacionamentos
+
+- Aplicacao utiliza BancoDeDados para realizar as operações.
+- BancoDeDados armazena e recupera os registros representados pela entidade Tarefa.
