@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="intro">
+  <div>
+    <p class="eyebrow">PAINEL DE TAREFAS</p>
+    <h1>Organize o que precisa ser feito.</h1>
+    <p class="muted">Cadastre atividades, defina prioridades e acompanhe o andamento.</p>
+  </div>
+  <div class="counter"><strong>{{ tasks|length }}</strong><span>tarefas exibidas</span></div>
+</section>
+
+<section class="panel">
+  <h2>Nova tarefa</h2>
+  <form class="new-task" action="{{ url_for('create_task') }}" method="post">
+    <label>Título<input name="title" maxlength="100" placeholder="Ex.: Conferir entregas do dia" required></label>
+    <label>Descrição<textarea name="description" rows="2" placeholder="Detalhes (opcional)"></textarea></label>
+    <label>Prioridade
+      <select name="priority"><option>Baixa</option><option selected>Média</option><option>Alta</option></select>
+    </label>
+    <button type="submit">Adicionar tarefa</button>
+  </form>
+</section>
+
+<div class="section-heading">
+  <h2>Lista de tarefas</h2>
+  <form method="get">
+    <select name="status" aria-label="Filtrar por status" onchange="this.form.submit()">
+      <option value="">Todos os status</option>
+      {% for value in ["Pendente", "Em andamento", "Concluída"] %}
+        <option value="{{ value }}" {% if selected_status == value %}selected{% endif %}>{{ value }}</option>
+      {% endfor %}
+    </select>
+  </form>
+</div>
+
+{% if tasks %}
+  <div class="task-list">
+    {% for task in tasks %}
+      <article class="task-card">
+        <div class="task-top">
+          <div>
+            <span class="priority {{ task.priority|lower }}">{{ task.priority }}</span>
+            <h3>{{ task.title }}</h3>
+            <p class="muted">{{ task.description or "Sem descrição." }}</p>
+          </div>
+          <span class="status">{{ task.status }}</span>
+        </div>
+        <details>
+          <summary>Editar tarefa</summary>
+          <form class="edit-form" action="{{ url_for('update_task', task_id=task.id) }}" method="post">
+            <label>Título<input name="title" value="{{ task.title }}" maxlength="100" required></label>
+            <label>Descrição<textarea name="description" rows="2">{{ task.description }}</textarea></label>
+            <div class="form-row">
+              <label>Status<select name="status">
+                {% for value in ["Pendente", "Em andamento", "Concluída"] %}
+                  <option {% if task.status == value %}selected{% endif %}>{{ value }}</option>
+                {% endfor %}
+              </select></label>
+              <label>Prioridade<select name="priority">
+                {% for value in ["Baixa", "Média", "Alta"] %}
+                  <option {% if task.priority == value %}selected{% endif %}>{{ value }}</option>
+                {% endfor %}
+              </select></label>
+            </div>
+            <button type="submit">Salvar alterações</button>
+          </form>
+        </details>
+        <form class="delete-form" action="{{ url_for('delete_task', task_id=task.id) }}" method="post" onsubmit="return confirm('Deseja realmente excluir esta tarefa?')">
+          <button class="danger" type="submit">Excluir</button>
+        </form>
+      </article>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="empty"><strong>Nenhuma tarefa por aqui.</strong><p>Cadastre uma tarefa ou altere o filtro selecionado.</p></div>
+{% endif %}
+{% endblock %}
